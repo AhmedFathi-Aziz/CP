@@ -1,0 +1,29 @@
+vector <int> values;
+
+we want to push_back() n elements let's calculate the time  (Amortized Complexity)
+
+values.push_back(x);
+
+(Amortized Analysis)
+
+first ->
+
+[x] 1
+
+[x][y] 1 + 1 = 2
+
+[x][y][g][j] 2 + 2 = 4
+
+[x][y][g][h][a][b][c][d] 4 + 4 = 8
+
+1 + 2 + 4 + 8 + 32 + 64
+
+let n = 2 ^ k
+
+1 + 2 + 4 + 8 + 32 + ... + 2 ^ k
+
+2 ^ 0 + 2 ^ 1 + 2 ^ 2 + 2 ^ 3 + ... + 2 ^ k
+
+summation = 2 ^ (k + 1) - 1 = 2 ^ k * 2 - 1 = n * 2 - 1 = O(n)
+
+so : push_back() time is amortized O(1)
