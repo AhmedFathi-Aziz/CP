@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<vector<int>> no(2001);
+bool visited[2001];
+bool color[2001];
+
+bool dfs(int node, int c) {
+   visited[node] = true;
+   color[node] = c;
+
+   for (int &i : no[node]) {
+      if (!visited[i]) {
+         bool out = dfs(i, c ^ 1);
+         if (!out)
+            return out;
+      }
+      else 
+         if (color[i] == color[node])
+            return false;
+   }
+   return true;
+}
+
+int main() {
+   ios::sync_with_stdio(false);
+   cin.tie(nullptr);
+   
+   int tt;
+   int n, m,
+   u, v;
+   cin >> tt;
+   for (int i = 1; i <= tt; i++) {
+      int n, m;
+      cin >> n >> m;
+
+      for (int j = 1; j <= n; j++)
+         no[j].clear(),
+         visited[j] = false,
+         color[j] = false;
+
+      for (int i = 0; i < m; i++)
+         cin >> u >> v,
+         no[u].push_back(v),
+         no[v].push_back(u);
+      bool fail = false;
+      for (int j = 1; j <= n; j++) {
+         if (!visited[j]) {
+            bool out = dfs(j, 0);
+            if (!out) {
+               fail = true;
+               break;
+            }
+         }
+      }
+      cout << "Scenario #" << i << ':' << '\n';
+     if (fail)
+         cout << "Suspicious bugs found!" << '\n';
+     else 
+         cout << "No suspicious bugs found!" << '\n';
+   }
+   return 0;
+}
