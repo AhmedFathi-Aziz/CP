@@ -1,2 +1,2 @@
 # CP
-## My Competitive Programming Journey
+## My competitive programming journey
