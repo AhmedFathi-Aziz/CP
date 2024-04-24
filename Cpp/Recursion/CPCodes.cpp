@@ -1,6 +1,7 @@
-#include <iostream>
-#include <math.h>
+#include <bits/stdc++.h>
 using namespace std;
+
+#define ll long long
 
 int f1(int n) {
     return 1;
@@ -22,45 +23,65 @@ int f5(int n) {
     return n * f4(n - 1);
 }
 
-int F(int n) {
-    if (n == 0)
-        return 1;
-    int out = n * F(n - 1);
-    cout << n << '\n';
-    return out;
+ll dp[101];
+ll fib(ll n) {
+   if (n == 0 || n == 1)
+      return n;
+   
+   ll &ret = dp[n];
+   if (~ret)
+      return ret;
+   return ret = fib(n - 1) + fib(n - 2);
 }
 
-void print(string a, int n, int i = 0) {
-    if (i == n)
-        return;
-    print(a, n, i + 1);
-    cout << a[i];
+int n, m;
+vector<vector<int>> grid, memo;
+
+bool valid(int i, int j) {
+   return i < n && j < m;
 }
 
-int out = 0;
-int sum(int a[], int n, int i = 0) {
-    if (i == n)
-        return 0;
-    sum(a, n, i + 1);
-    out += a[i];
-    return out;
-}
+int maxPath(int i, int j) {
+   if (!valid(i, j))
+      return 0;
+   if (i == n - 1 && j == m - 1)
+      return grid[i][j];
 
-int score(int *a, int n, int i = 0) {
-    if (i == n)
-        return 0;
-    return a[i] + score(a, n, i + 1);
-}
+   int &ret = memo[i][j];
+   if (~ret)
+         return ret;
 
-int power(int base, int p) { // O(p) * (1)
-    if (!p)
-        return 1;
-    return base * power(base, p - 1);
+   int right = maxPath(i, j + 1);
+   int bottom = maxPath(i + 1, j);
+   return ret = max(right, bottom) + grid[i][j];
 }
 
 int main() {
-    cout << power(2, 4);
+   ios::sync_with_stdio(false);
+   cin.tie(nullptr);
 
-    cout << '\n';
-    return 0;
+   grid = {{1, 2, 3, 4, 2},
+           {1, 2, 3, 4, 2},
+           {1, 2, 3, 4, 2}};
+   n = grid.size(), m = grid[0].size();
+   memo = vector<vector<int>>(n, vector<int>(m, -1));
+
+
+   cout << maxPath(0, 0);
+   cout << "\n";
+   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
